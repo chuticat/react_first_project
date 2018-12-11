@@ -1,7 +1,12 @@
+/* eslint-disable  */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import App, { Search, Button, Table } from './App';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 describe('App', () => {
   it('renders without crashing', () => {
@@ -49,6 +54,14 @@ describe('Button', () => {
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   })
+
+  it('should have a type button', () => {
+    const element = shallow(
+      <Button>Give Me More</Button>
+    );
+
+    expect(element.prop('type')).toBe('button');
+  });
 });
 
 describe('Table', () => {
@@ -71,6 +84,14 @@ describe('Table', () => {
     );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it('show two items in list', () => {
+    const element = shallow(
+      <Table { ...props } />
+    );
+
+    expect(element.find('.table-row').length).toBe(2);
   });
 });
 

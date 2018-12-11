@@ -1,5 +1,7 @@
+/* eslint-disable  */
 import React, { Component } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import './App.css';
 
 const DEFAULT_QUERY = 'redux';
@@ -16,7 +18,7 @@ const Search = ({
   onSubmit,
   children 
 }) => {
-    return (
+  return (
       <form onSubmit={onSubmit} >
         <input 
           type = "text"
@@ -30,49 +32,78 @@ const Search = ({
     );
   }
 
+Search.PropTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+}
+
 const Table = ({ list, onDismiss }) => {
-    const largeColumn = {
-      width: '40%',
-    }
-    const midColumn = {
-      width: '30%',
-    }
-    const smallColumn = {
-      width: '10%',
-    }
-    return (
-      <div className="table">
-        {list.map(item =>
-            <div key = { item.objectID } className="table-row">
-              <span style={ largeColumn }>
-              <a href = { item.url }>{ item.title }</a>
-              </span>
-              <span style={ midColumn }>{ item.author }</span>
-              <span style={ smallColumn }>{ item.num_comments }</span>
-              <span style={ smallColumn }>{ item.points }</span>
-              <span style={ smallColumn }>
-                <Button onClick={ () => onDismiss(item.objectID) }>
-                  Dismiss
-                </Button>
-              </span>
-            </div>
-          )}
-      </div>
-    );
+  const largeColumn = {
+    width: '40%',
   }
-
-
-const Button = ({onClick, className = '', children}) => {
-    return (
-      <button
-        onClick = { onClick }
-        className = { className }
-        type = "button"
-      >
-        { children }
-      </button>
-    )
+  const midColumn = {
+    width: '30%',
   }
+  const smallColumn = {
+    width: '10%',
+  }
+  return (
+    <div className="table">
+      {list.map(item =>
+          <div key = { item.objectID } className="table-row">
+            <span style={ largeColumn }>
+            <a href = { item.url }>{ item.title }</a>
+            </span>
+            <span style={ midColumn }>{ item.author }</span>
+            <span style={ smallColumn }>{ item.num_comments }</span>
+            <span style={ smallColumn }>{ item.points }</span>
+            <span style={ smallColumn }>
+              <Button onClick={ () => onDismiss(item.objectID) }>
+                Dismiss
+              </Button>
+            </span>
+          </div>
+        )}
+    </div>
+  );
+}
+
+Table.PropTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      author: PropTypes.string,
+      url: PropTypes.string,
+      num_comments: PropTypes.number,
+      points: PropTypes.number
+    })
+  ).isRequired,
+  onDismiss: PropTypes.func.isRequired,
+}
+
+const Button = ({onClick, className, children}) => {
+  return (
+    <button
+      onClick = { onClick }
+      className = { className }
+      type = "button"
+    >
+      { children }
+    </button>
+  );
+}
+
+Button.defaultProps = {
+  className: '',
+}
+
+Button.PropTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired, 
+}
 
 class App extends Component {
   _isMounted = false;
