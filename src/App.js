@@ -3,6 +3,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import './App.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+library.add(faSpinner);
 
 const DEFAULT_QUERY = 'redux';
 const DEFAULT_HPP = '20';
@@ -116,7 +121,13 @@ Button.PropTypes = {
 }
 
 const Loading = () => 
-  <div>Loading...</div>
+  <div>
+    <FontAwesomeIcon 
+      icon = "spinner"
+      pulse = "true"
+      size = "2x"
+    />
+  </div>
 
 class App extends Component {
   _isMounted = false;
