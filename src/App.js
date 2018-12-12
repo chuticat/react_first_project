@@ -5,32 +5,42 @@ import PropTypes from 'prop-types';
 import './App.css';
 
 const DEFAULT_QUERY = 'redux';
-const DEFAULT_HPP = '100';
+const DEFAULT_HPP = '20';
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage=';
 
-const Search = ({ 
-  value, 
-  onChange,
-  onSubmit,
-  children 
-}) => {
-  return (
+class Search extends Component {
+  componentDidMount() {
+    if(this.input) {
+      this.input.focus();
+    } 
+  }
+  render() {
+    const {
+      value,
+      onChange,
+      onSubmit,
+      children
+    } = this.props;
+  
+    return (
       <form onSubmit={onSubmit} >
-        <input 
-          type = "text"
-          value = { value }
-          onChange = { onChange }
-        />
-        <button type="submit">
-          { children }
-        </button>
-      </form>
+          <input 
+            type = "text"
+            value = { value }
+            onChange = { onChange }
+            ref = { el => this.input = el }
+          />
+          <button type="submit">
+            { children }
+          </button>
+        </form>
     );
   }
+}
 
 Search.PropTypes = {
   value: PropTypes.string.isRequired,
